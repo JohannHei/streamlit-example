@@ -9,19 +9,40 @@ import requests
 # Welcome to Zapp Search Compare!
 """
 
-def do_search(endpoint, query):
+def do_search_old_backend(query):
+    endpoint = "https://stg.gateway.quickcommerce.org/search/searchProducts/"
+    graph_query = """
+    query Search($search:String!) {
+  search(filter:{search:$search,warehouseId:"V2FyZWhvdXNlOjNlY2EwNDRlLWUwMDQtNDEwNC04MmI3LTdiYWEyYWI5YzY5MA=="
+    
+  }){
+    products{
+      edges{
+        node{
+          id
+        }
+      }
+    }
+  }
+}
+    """
 
-    req = requests.post(endpoint, json={'query': graph_query})
+    req = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}})
 
     print(req)
 
-def on_input_change(input):
-    return f"{input} RESULT"
+    return req.data
+
 
 search_input = st.text_input("Search Query")
-search_result = on_input_change(search_input)
 
 col1, col2 = st.columns(2)
 
 
-st.write("You entered: ", search_result)
+with col1:
+    search_result = do_search_old_backend(search_input)
+    st.write("You entered: ", search_result)
+
+with col2:
+    search_result = do_search_old_backend(search_input)
+    st.write("You entered: ", search_result)
