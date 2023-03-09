@@ -10,7 +10,7 @@ import json
 # Welcome to Zapp Search Compare!
 """
 
-def do_search_old_backend(query, search_header):
+def do_search_old_backend(query, search_header=[]):
     endpoint = "https://gb.gateway.quickcommerce.org/search/searchProducts/"
     graph_query = """
     query Search($search:String!) {
