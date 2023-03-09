@@ -4,6 +4,7 @@ import math
 import pandas as pd
 import streamlit as st
 import requests
+import json
 
 """
 # Welcome to Zapp Search Compare!
@@ -27,11 +28,11 @@ def do_search_old_backend(query):
 }
     """
 
-    req = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}})
+    res = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}})
 
-    print(req)
+    print(res)
 
-    return str(req)
+    return json.loads(res.text)
 
 
 search_input = st.text_input("Search Query")
