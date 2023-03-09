@@ -45,6 +45,7 @@ columns = st.columns(len(experiments)+1)
 
 def write_result(products):
     for p in products:
+        p
         st.text(p["name"])
         st.image(p["thumbnail"]["url"])
         """
