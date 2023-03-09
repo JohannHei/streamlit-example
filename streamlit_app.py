@@ -31,7 +31,7 @@ def do_search_old_backend(query):
 
     print(req)
 
-    return req.data
+    return str(req)
 
 
 search_input = st.text_input("Search Query")
