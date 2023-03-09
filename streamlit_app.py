@@ -40,15 +40,19 @@ def do_search_old_backend(query, search_header=[], boosts={}):
 
     return json.loads(res.text)["data"]["search"]["products"]["edges"]
 
-
+col1,col2 = st.columns(2)
 search_input = st.text_input("Search Query")
-boost_title = st.slider('Boost Title?', 0, 1000, 1)
-boost_tags = st.slider('Boost Tags?', 0, 1000, 100)
-boost_badges = st.slider('Boost Badges?', 0, 1000, 100)
 
-boost_title_ayg = st.slider('Boost Title AYG?', 0, 1000, 5)
-boost_tags_ayg = st.slider('Boost Tags AYG?', 0, 1000, 0)
-boost_badges_ayg = st.slider('Boost Badges AYG?', 0, 1000, 0)
+with col1:
+
+
+    boost_title = st.slider('Boost Title?', 0, 1000, 1)
+    boost_tags = st.slider('Boost Tags?', 0, 1000, 100)
+    boost_badges = st.slider('Boost Badges?', 0, 1000, 100)
+with col2:
+    boost_title_ayg = st.slider('Boost Title AYG?', 0, 1000, 5)
+    boost_tags_ayg = st.slider('Boost Tags AYG?', 0, 1000, 0)
+    boost_badges_ayg = st.slider('Boost Badges AYG?', 0, 1000, 0)
 
 boosts = {
     "boost_title":boost_title,
