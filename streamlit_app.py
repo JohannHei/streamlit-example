@@ -76,14 +76,14 @@ with columns[0]:
     """
     Status quo
     """
-    search_result = do_search_old_backend(search_input, boosts=boosts)
+    search_result = do_search_old_backend(search_input)
     write_result(search_result)
 
 with columns[1]:
     """
-    Status quo
+    Manual Boosts
     """
-    search_result = do_search_old_backend(search_input)
+    search_result = do_search_old_backend(search_input, boosts=boosts)
     write_result(search_result)
 
 for idx,experiment in enumerate(experiments):
