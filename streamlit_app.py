@@ -34,7 +34,7 @@ def do_search_old_backend(query, search_header=[]):
 
     res = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}}, headers={"x-active-search-features":",".join(search_header)})
 
-    return json.loads(res.text)["data"]["search"]["products"]
+    return json.loads(res.text)["data"]["search"]["products"]["edges"]
 
 
 search_input = st.text_input("Search Query")
