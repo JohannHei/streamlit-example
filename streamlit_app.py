@@ -45,7 +45,7 @@ columns = st.columns(len(experiments)+1)
 
 def write_result(products):
     for p in products:
-        p
+        p = p["node"]
         st.text(p["name"])
         st.image(p["thumbnail"]["url"])
         """
