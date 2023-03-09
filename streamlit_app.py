@@ -58,7 +58,7 @@ with col1:
 
 with col2:
     """
-    is_search_boost_title
+    is_search_title_boost
     """
-    search_result = do_search_old_backend(search_input, ["is_search_boost_title"])
+    search_result = do_search_old_backend(search_input, ["is_search_title_boost"])
     write_result(search_result)
