@@ -40,9 +40,10 @@ def do_search_old_backend(query, search_header=[], boosts={}):
 
     return json.loads(res.text)["data"]["search"]["products"]["edges"]
 
-col1,col2 = st.columns(2)
+
 search_input = st.text_input("Search Query")
 
+col1,col2 = st.columns(2)
 with col1:
 
 
