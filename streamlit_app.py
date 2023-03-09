@@ -21,6 +21,10 @@ def do_search_old_backend(query, search_header):
       edges{
         node{
           id
+          name
+          thumbnail{
+            url
+          }
         }
       }
     }
