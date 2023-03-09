@@ -39,7 +39,9 @@ def do_search_old_backend(query, search_header=[]):
 
 search_input = st.text_input("Search Query")
 
-col1, col2 = st.columns(2)
+experiments = ["is_search_title_boost"]
+
+columns = st.columns(len(experiments)+1)
 
 def write_result(products):
     for p in products:
@@ -49,16 +51,17 @@ def write_result(products):
         ------------
         """
 
-with col1:
+with columns[0]:
     """
     Status quo
     """
     search_result = do_search_old_backend(search_input)
     write_result(search_result)
 
-with col2:
-    """
-    is_search_title_boost
-    """
-    search_result = do_search_old_backend(search_input, ["is_search_title_boost"])
-    write_result(search_result)
+for idx,experiment in enumerate(experiments):
+    with columns[idx+1]:
+        f"""
+        {experiment}
+        """
+        search_result = do_search_old_backend(search_input, [experiment])
+        write_result(search_result)
