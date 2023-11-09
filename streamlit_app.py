@@ -121,7 +121,7 @@ with columns[1]:
     """
 
     search_result = do_search_gcp_backend(search_input)
-    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"][0], 0, DEFAULT_IMAGE) } } for p in search_result if p is not None]
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, DEFAULT_IMAGE) } } for p in search_result if p is not None]
     
     write_result(standard_result)
 
