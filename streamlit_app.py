@@ -95,7 +95,8 @@ search_input = st.text_input("Search Query")
 #     "boost_badges_ayg":boost_badges_ayg
 # }
 
-experiments = ["is_search_title_boost"]
+# experiments = ["is_search_title_boost"]
+experiments = []
 
 columns = st.columns(len(experiments)+2)
 
