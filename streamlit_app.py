@@ -7,7 +7,6 @@ import requests
 import json
 
 
-DEFAULT_IMAGE = "https://stg.static.quickcommerce.org/products/52379ef4-fdcf-4b2c-810d-dae8a7c16c15.png"
 def safe_list_get (l, idx, default):
   try:
     return l[idx]
@@ -19,7 +18,7 @@ def safe_list_get (l, idx, default):
 """
 
 def do_search_old_backend(query, search_header=[], boosts={}):
-    endpoint = "https://stg.gateway.quickcommerce.org/search/searchProducts/"
+    endpoint = "https://gb.gateway.quickcommerce.org/search/searchProducts/"
     graph_query = """
     query Search($search:String!) {
   search(filter:{search:$search,warehouseId:"V2FyZWhvdXNlOjNlY2EwNDRlLWUwMDQtNDEwNC04MmI3LTdiYWEyYWI5YzY5MA=="
@@ -50,7 +49,7 @@ def do_search_old_backend(query, search_header=[], boosts={}):
 
 
 def do_search_gcp_backend(query, search_header=[], boosts={}):
-    endpoint = "https://stg.gateway.quickcommerce.org/zmobile-gateway/graphql"
+    endpoint = "https://gb.gateway.quickcommerce.org/zmobile-gateway/graphql"
     graph_query = """
     query Search($search:String!) {
       gcpRetailSearch(warehouseId: "uk_london_old-brompton-road", query: $search) {
