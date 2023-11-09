@@ -113,7 +113,7 @@ with columns[1]:
     """
 
     search_result = do_search_gcp_backend(search_input)
-    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["imageUrls"][0] } } for p in search_result if p is not None]
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"][0], 0, DEFAULT_IMAGE) } } for p in search_result if p is not None]
     
     write_result(standard_result)
 
@@ -124,3 +124,11 @@ for idx,experiment in enumerate(experiments):
         """
         search_result = do_search_old_backend(search_input, [experiment])
         write_result(search_result)
+
+
+DEFAULT_IMAGE = "https://stg.static.quickcommerce.org/products/52379ef4-fdcf-4b2c-810d-dae8a7c16c15.png"
+def safe_list_get (l, idx, default):
+  try:
+    return l[idx]
+  except IndexError:
+    return default
