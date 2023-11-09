@@ -101,7 +101,7 @@ columns = st.columns(len(experiments)+2)
 
 def write_result(products):
     for p in products:
-        p = p["node"]
+        p = p["node"] if "node" in p else p
         st.text(p["name"])
         st.image(p["thumbnail"]["url"])
         """
