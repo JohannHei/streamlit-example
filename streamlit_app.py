@@ -65,11 +65,9 @@ def do_search_gcp_backend(query, search_header=[], boosts={}):
 
     res = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}}, 
     headers={
-        "x-active-search-features":",".join(search_header),
-        "x-boosts":json.dumps(boosts)
         })
 
-    return json.loads(res.text)["data"]["gcpRetailSearch"]["items"]
+    return json.loads(res.text)["data"]["gcpRetailSearch"]["items"].filter(lambda x: x is not None)
 
 
 search_input = st.text_input("Search Query")
@@ -122,7 +120,7 @@ with columns[1]:
     """
 
     search_result = do_search_gcp_backend(search_input)
-    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, "") } } for p in search_result if p is not None]
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, "") } } for p in search_result]
     
     write_result(standard_result)
 
