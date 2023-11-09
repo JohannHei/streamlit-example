@@ -41,28 +41,51 @@ def do_search_old_backend(query, search_header=[], boosts={}):
     return json.loads(res.text)["data"]["search"]["products"]["edges"]
 
 
+def do_search_gcp_backend(query, search_header=[], boosts={}):
+    endpoint = "https://stg.gateway.quickcommerce.org/zmobile-gateway/graphql"
+    graph_query = """
+    query Search($search:String!) {
+      gcpRetailSearch(warehouseId: "uk_london_old-brompton-road", query: $search) {
+        items {
+          name
+          sku
+          imageUrls
+        }
+      }
+    }
+    """
+
+    res = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}}, 
+    headers={
+        "x-active-search-features":",".join(search_header),
+        "x-boosts":json.dumps(boosts)
+        })
+
+    return json.loads(res.text)["data"]["gcpRetailSearch"]["items"]
+
+
 search_input = st.text_input("Search Query")
 
-col1,col2 = st.columns(2)
-with col1:
+# col1,col2 = st.columns(2)
+# with col1:
 
 
-    boost_title = st.slider('Boost Title?', 0, 1000, 1)
-    boost_tags = st.slider('Boost Tags?', 0, 1000, 100)
-    boost_badges = st.slider('Boost Badges?', 0, 1000, 100)
-with col2:
-    boost_title_ayg = st.slider('Boost Title AYG?', 0, 1000, 5)
-    boost_tags_ayg = st.slider('Boost Tags AYG?', 0, 1000, 0)
-    boost_badges_ayg = st.slider('Boost Badges AYG?', 0, 1000, 0)
+#     boost_title = st.slider('Boost Title?', 0, 1000, 1)
+#     boost_tags = st.slider('Boost Tags?', 0, 1000, 100)
+#     boost_badges = st.slider('Boost Badges?', 0, 1000, 100)
+# with col2:
+#     boost_title_ayg = st.slider('Boost Title AYG?', 0, 1000, 5)
+#     boost_tags_ayg = st.slider('Boost Tags AYG?', 0, 1000, 0)
+#     boost_badges_ayg = st.slider('Boost Badges AYG?', 0, 1000, 0)
 
-boosts = {
-    "boost_title":boost_title,
-    "boost_tags":boost_tags,
-    "boost_badges":boost_badges,
-    "boost_title_ayg":boost_title_ayg,
-    "boost_tags_ayg":boost_tags_ayg,
-    "boost_badges_ayg":boost_badges_ayg
-}
+# boosts = {
+#     "boost_title":boost_title,
+#     "boost_tags":boost_tags,
+#     "boost_badges":boost_badges,
+#     "boost_title_ayg":boost_title_ayg,
+#     "boost_tags_ayg":boost_tags_ayg,
+#     "boost_badges_ayg":boost_badges_ayg
+# }
 
 experiments = ["is_search_title_boost"]
 
@@ -86,10 +109,12 @@ with columns[0]:
 
 with columns[1]:
     """
-    Manual Boosts
+    GCP Retail Search
     """
-    search_result = do_search_old_backend(search_input, boosts=boosts)
-    write_result(search_result)
+
+    search_result = do_search_gcp_backend(search_input)
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["thumbnail"]["url"] } } for p in search_result]
+    write_result(standard_result)
 
 for idx,experiment in enumerate(experiments):
     with columns[idx+2]:
