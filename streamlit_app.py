@@ -113,7 +113,8 @@ with columns[1]:
     """
 
     search_result = do_search_gcp_backend(search_input)
-    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["thumbnail"]["url"] } } for p in search_result]
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["thumbnail"]["url"] } } for p in search_result if p is not None]
+    
     write_result(standard_result)
 
 for idx,experiment in enumerate(experiments):
