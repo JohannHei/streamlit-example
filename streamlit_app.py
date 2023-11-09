@@ -93,6 +93,8 @@ columns = st.columns(len(experiments)+2)
 
 def write_result(products):
     for p in products:
+        if p is None:
+            continue
         p = p["node"]
         st.text(p["name"])
         st.image(p["thumbnail"]["url"])
@@ -113,7 +115,7 @@ with columns[1]:
     """
 
     search_result = do_search_gcp_backend(search_input)
-    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["thumbnail"]["url"] } } for p in search_result if p is not None]
+    standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": p["thumbnail"]["url"] } } for p in search_result]
     
     write_result(standard_result)
 
