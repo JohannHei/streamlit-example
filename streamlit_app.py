@@ -68,7 +68,8 @@ def do_search_gcp_backend(query, search_header=[], boosts={}):
         })
 
     results = json.loads(res.text)["data"]["gcpRetailSearch"]["items"]
-    return [result for result in results if result is not None]
+
+    return [product for product in results if product is not None] if results else []
 
 
 search_input = st.text_input("Search Query")
