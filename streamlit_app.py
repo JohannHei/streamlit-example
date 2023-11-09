@@ -19,7 +19,7 @@ def safe_list_get (l, idx, default):
 """
 
 def do_search_old_backend(query, search_header=[], boosts={}):
-    endpoint = "https://gb.gateway.quickcommerce.org/search/searchProducts/"
+    endpoint = "https://stg.gateway.quickcommerce.org/search/searchProducts/"
     graph_query = """
     query Search($search:String!) {
   search(filter:{search:$search,warehouseId:"V2FyZWhvdXNlOjNlY2EwNDRlLWUwMDQtNDEwNC04MmI3LTdiYWEyYWI5YzY5MA=="
@@ -67,7 +67,8 @@ def do_search_gcp_backend(query, search_header=[], boosts={}):
     headers={
         })
 
-    return json.loads(res.text)["data"]["gcpRetailSearch"]["items"].filter(lambda x: x is not None)
+    results = json.loads(res.text)["data"]["gcpRetailSearch"]["items"]
+    return [result for result in results if result is not None]
 
 
 search_input = st.text_input("Search Query")
