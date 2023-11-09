@@ -6,6 +6,14 @@ import streamlit as st
 import requests
 import json
 
+
+DEFAULT_IMAGE = "https://stg.static.quickcommerce.org/products/52379ef4-fdcf-4b2c-810d-dae8a7c16c15.png"
+def safe_list_get (l, idx, default):
+  try:
+    return l[idx]
+  except IndexError:
+    return default
+
 """
 # Welcome to Zapp Search Compare!
 """
@@ -125,10 +133,3 @@ for idx,experiment in enumerate(experiments):
         search_result = do_search_old_backend(search_input, [experiment])
         write_result(search_result)
 
-
-DEFAULT_IMAGE = "https://stg.static.quickcommerce.org/products/52379ef4-fdcf-4b2c-810d-dae8a7c16c15.png"
-def safe_list_get (l, idx, default):
-  try:
-    return l[idx]
-  except IndexError:
-    return default
