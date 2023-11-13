@@ -91,6 +91,8 @@ def do_search_algolia_backend(query, search_header=[], boosts={}):
 
     results = json.loads(res.text)["data"]["algoliaSearch"]["items"]
 
+    print(results)
+
     return [product for product in results if product is not None] if results else []
 
 search_input = st.text_input("Search Query")
@@ -152,10 +154,10 @@ with columns[2]:
     """
     Algolia Search
     """
-
     if search_input is not "":
-      simple_es_search_result = do_search_algolia_backend(search_input)
-      write_result(simple_es_search_result)
+      search_result = do_search_algolia_backend(search_input)
+      standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
+      write_result(standard_result)
 
 for idx,experiment in enumerate(experiments):
     with columns[idx+2]:
