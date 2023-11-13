@@ -71,6 +71,28 @@ def do_search_gcp_backend(query, search_header=[], boosts={}):
     return [product for product in results if product is not None] if results else []
 
 
+def do_search_gcp_backend(query, search_header=[], boosts={}):
+    endpoint = "https://gb.gateway.quickcommerce.org/zmobile-gateway/graphql"
+    graph_query = """
+    query Search($search:String!) {
+      algoliaSearch(warehouseId: "uk_london_old-brompton-road", query: $search) {
+        items {
+          name
+          sku
+          imageUrls
+        }
+      }
+    }
+    """
+
+    res = requests.post(endpoint, json={'query': graph_query,"operationName":"Search","variables":{"search":query}}, 
+    headers={
+        })
+
+    results = json.loads(res.text)["data"]["algoliaSearch"]["items"]
+
+    return [product for product in results if product is not None] if results else []
+
 search_input = st.text_input("Search Query")
 
 # col1,col2 = st.columns(2)
@@ -97,13 +119,13 @@ search_input = st.text_input("Search Query")
 # experiments = ["is_search_title_boost"]
 experiments = []
 
-columns = st.columns(len(experiments)+2)
+columns = st.columns(len(experiments)+3)
 
 def write_result(products):
     for p in products:
         p = p["node"] if "node" in p else p
         st.text(p["name"])
-        if p["thumbnail"]["url"] is not None:
+        if p["thumbnail"].get("url") != None:
           st.image(p["thumbnail"]["url"])
         """
         ------------
@@ -125,6 +147,15 @@ with columns[1]:
       search_result = do_search_gcp_backend(search_input)
       standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
       write_result(standard_result)
+
+with columns[2]:
+    """
+    Algolia Search
+    """
+
+    if search_input is not "":
+      simple_es_search_result = do_search_algolia_backen(search_input)
+      write_result(simple_es_search_result)
 
 for idx,experiment in enumerate(experiments):
     with columns[idx+2]:
