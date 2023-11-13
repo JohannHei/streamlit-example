@@ -90,9 +90,6 @@ def do_search_algolia_backend(query, search_header=[], boosts={}):
         })
 
     results = json.loads(res.text)["data"]["algoliaSearch"]["items"]
-
-    print(results)
-
     return [product for product in results if product is not None] if results else []
 
 search_input = st.text_input("Search Query")
@@ -145,7 +142,7 @@ with columns[1]:
     GCP Retail Search
     """
 
-    if search_input is not "":
+    if search_input != "":
       search_result = do_search_gcp_backend(search_input)
       standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
       write_result(standard_result)
@@ -154,7 +151,7 @@ with columns[2]:
     """
     Algolia Search
     """
-    if search_input is not "":
+    if search_input != "":
       search_result = do_search_algolia_backend(search_input)
       standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
       write_result(standard_result)
