@@ -71,7 +71,7 @@ def do_search_gcp_backend(query, search_header=[], boosts={}):
     return [product for product in results if product is not None] if results else []
 
 
-def do_search_gcp_backend(query, search_header=[], boosts={}):
+def do_search_algolia_backend(query, search_header=[], boosts={}):
     endpoint = "https://gb.gateway.quickcommerce.org/zmobile-gateway/graphql"
     graph_query = """
     query Search($search:String!) {
@@ -154,7 +154,7 @@ with columns[2]:
     """
 
     if search_input is not "":
-      simple_es_search_result = do_search_algolia_backen(search_input)
+      simple_es_search_result = do_search_algolia_backend(search_input)
       write_result(simple_es_search_result)
 
 for idx,experiment in enumerate(experiments):
