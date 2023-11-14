@@ -127,6 +127,10 @@ with columns[0]:
     Status quo
     """
     search_result = do_search_old_backend(search_input)
+    if search_input != "":
+      f"""
+      Hits: {len(search_result)}
+      """
     write_result(search_result)
 
 with columns[1]:
@@ -135,6 +139,9 @@ with columns[1]:
     """
     if search_input != "":
       search_result = do_search_algolia_backend(search_input)
+      f"""
+      Hits: {len(search_result)}
+      """
       write_result(search_result)
 
 # with columns[2]:
