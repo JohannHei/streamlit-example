@@ -18,7 +18,7 @@ def safe_list_get (l, idx, default):
 """
 
 def do_search_old_backend(query, search_header=[], boosts={}):
-    endpoint = "https://stg.gateway.quickcommerce.org/zmobile-gateway/graphql"
+    endpoint = "https://gb.gateway.quickcommerce.org/zmobile-gateway/graphql"
     graph_query = """
       query Search($query: String!) {
         search(warehouseId: "uk_london_old-brompton-road", query: $query) {
