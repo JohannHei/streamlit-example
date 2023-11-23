@@ -133,7 +133,19 @@ with columns[0]:
       """
     write_result(search_result)
 
+
 with columns[1]:
+    """
+    GCP Retail Search
+    """
+
+    if search_input != "":
+      search_result = do_search_gcp_backend(search_input)
+      standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
+      write_result(standard_result)
+
+
+with columns[2]:
     """
     Algolia Search
     """
@@ -144,15 +156,6 @@ with columns[1]:
       """
       write_result(search_result)
 
-with columns[2]:
-    """
-    GCP Retail Search
-    """
-
-    if search_input != "":
-      search_result = do_search_gcp_backend(search_input)
-      standard_result = [{ "id": p["sku"], "name": p["name"], "thumbnail": { "url": safe_list_get(p["imageUrls"], 0, None) } } for p in search_result]
-      write_result(standard_result)
 
 
 for idx,experiment in enumerate(experiments):
