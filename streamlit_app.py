@@ -110,7 +110,7 @@ search_input = st.text_input("Search Query")
 # experiments = ["is_search_title_boost"]
 experiments = []
 
-columns = st.columns(len(experiments)+2)
+columns = st.columns(len(experiments)+3)
 
 def write_result(products):
     for p in products:
